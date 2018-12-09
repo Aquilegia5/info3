@@ -1,3 +1,6 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
  * Binärbaum <br />
  * Informatik III, Universität Augsburg <br />
@@ -14,25 +17,6 @@ public class BinTree {
         this.value = v;
         this.leftson = l;
         this.rightson = r;
-    }
-
-    public static void main(String args[]){
-        BinTree bt, wt, wtf, ctree;
-        bt = new BinTree(5,new BinTree(3,new BinTree(1,null,null), new BinTree(2,null,null)),new BinTree(7,new BinTree(8,null,null),null));
-        wt = new BinTree("and", new BinTree("or", new BinTree(false, null, null), new BinTree(true, null, null)), new BinTree("not",null, new BinTree(false, null,null)));
-        wtf = new BinTree("xor", new BinTree(true, null, null), new BinTree(false, null, null));
-        ctree = new BinTree("or", new BinTree("not", null, new BinTree("and", new BinTree(true, null, null), new BinTree(false, null, null))), new BinTree("xor", new BinTree(false, null, null), new BinTree(true, null, null)));
-        System.out.println(bt.avg(bt));
-        System.out.println("-----------------------");
-        preOut(wt);
-        System.out.println();
-        postOut(wt);
-        System.out.println();
-        inOut(wt);
-        System.out.println();
-        System.out.println("-----------------------");
-        System.out.println(bt.evaluate(wt));
-        System.out.println(bt.infix(wt));
     }
 
     public Object val() {
@@ -86,7 +70,7 @@ public class BinTree {
     }
 
     //Ausgabe
-    public static void preOut(BinTree bt){
+    public void preOut(BinTree bt){
         BinTree l = bt.lson();
         BinTree r = bt.rson();
         if(bt != null){
@@ -99,7 +83,7 @@ public class BinTree {
 
     }
 
-    public static void postOut(BinTree bt) {
+    public void postOut(BinTree bt) {
         BinTree l = bt.lson();
         BinTree r = bt.rson();
 
@@ -112,7 +96,7 @@ public class BinTree {
         }
     }
 
-    public static void inOut(BinTree bt) {
+    public void inOut(BinTree bt) {
         BinTree l = bt.lson();
         BinTree r = bt.rson();
 
@@ -126,6 +110,7 @@ public class BinTree {
     }
     //Ausgaben Ende
 
+    //Blatt 3
     public boolean isValid(BinTree wt){
         if(wt == null)
             return true;
@@ -185,5 +170,47 @@ public class BinTree {
     }
     private String klammern(String input) {
         return "("+input+")";
+    }
+
+
+    //Blatt 4
+    public ArrayList<Integer> inOrdArray(BinTree bt) {
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        if(bt == null)
+            return list;
+        list = inOrdArray(bt.lson());
+        list.add((int)bt.val());
+        list.addAll(inOrdArray(bt.rson()));
+        return list;
+    }
+    private boolean checkSorted(ArrayList<Integer> inOrd){
+        int size = inOrd.size();
+        for(int i=1; i<size; i++){
+            if(inOrd.get(i-1) > inOrd.get(i))
+                return false;
+        }
+        return true;
+    }
+    public boolean isSorted(BinTree bt) {
+        return checkSorted(inOrdArray(bt));
+    }
+    //Rotationen
+    public BinTree lrot(BinTree bt) {
+        BinTree b = bt.rson();
+        if(b==null)
+            return bt;
+        BinTree t2 = b.lson();
+        b.setLson(bt);
+        bt.setRson(t2);
+        return b;
+    }
+    public BinTree rrot(BinTree bt) {
+        BinTree a = bt.lson();
+        if(a == null)
+            return bt;
+        BinTree t2 = a.rson();
+        a.setRson(bt);
+        bt.setLson(t2);
+        return a;
     }
 }
