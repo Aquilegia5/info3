@@ -213,4 +213,33 @@ public class BinTree {
         bt.setLson(t2);
         return a;
     }
+
+    //Blatt 5
+    public BinTree mk_tree_pi(int[] prefix, int[] infix) {
+        if(prefix.length == 0) return null;
+        int rootVal = prefix[0];
+        int indInfix = -1;
+        //Finde Wurzelindex in Infix Array
+        for(i=0;i<infix.length;i++){
+            if(rootVal = infix[i])
+                indInfix = i;
+        }
+
+        int restSize = prefix.length -1 -indInfix;
+
+        //Neue Arrays erstellen
+        int lpref[] = new int[indInfix];
+        int linfix[] = new int[indInfix];
+        int rpref[] = new int[restSize];
+        int rinfix[] = new int[restSize];
+
+        System.arraycopy(prefix, 1, lpref, 0, indInfix);
+        System.arraycopy(infix, 0, linfix, 0, indInfix);
+        System.arraycopy(prefix, indInfix+1, rpref, 0, restSize);
+        System.arraycopy(infix, 0, indInfix+1, rinfix, 0, restSize);
+
+
+        return new BinTree(rootVal, mk_tree_pi(lpref, linfix),mk_tree_pi(rpref, rinfix));
+    }
+
 }
