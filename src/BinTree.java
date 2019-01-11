@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -220,8 +221,8 @@ public class BinTree {
         int rootVal = prefix[0];
         int indInfix = -1;
         //Finde Wurzelindex in Infix Array
-        for(i=0;i<infix.length;i++){
-            if(rootVal = infix[i])
+        for(int i=0;i<infix.length;i++){
+            if(rootVal == infix[i])
                 indInfix = i;
         }
 
@@ -236,10 +237,35 @@ public class BinTree {
         System.arraycopy(prefix, 1, lpref, 0, indInfix);
         System.arraycopy(infix, 0, linfix, 0, indInfix);
         System.arraycopy(prefix, indInfix+1, rpref, 0, restSize);
-        System.arraycopy(infix, 0, indInfix+1, rinfix, 0, restSize);
+        System.arraycopy(infix,  indInfix+1, rinfix, 0, restSize);
 
 
         return new BinTree(rootVal, mk_tree_pi(lpref, linfix),mk_tree_pi(rpref, rinfix));
+    }
+
+    public int[] postfix(BinTree bt) {
+        if(bt == null)
+            return new int[0];
+
+        int[] erg;
+        if(bt.isleaf()){
+            erg = new int[1];
+            erg[0] = (Integer) bt.val();
+        } else {
+            int[] l = postfix(bt.lson());
+            int[] r = postfix(bt.rson());
+
+            erg = new int[l.length+r.length+1];
+            System.arraycopy(l,0,erg,0,l.length);
+            System.arraycopy(r,0,erg,l.length,r.length);
+            erg[l.length+r.length] = (Integer) bt.val();
+        }
+        return erg;
+    }
+
+    public int[] postfix(int[] prefix, int[] infix) {
+        BinTree bt = mk_tree_pi(prefix, infix);
+        return postfix(bt);
     }
 
 }

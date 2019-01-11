@@ -1,9 +1,15 @@
+import java.awt.*;
+
 public class Main {
 
     public static void main(String[] args) {
+        //Sortieren
+        Sorting sort = new Sorting();
+
         //Testvars
         int inf[] =  new int[] { 2, 3, 4, 1, 13, 9, 7, 8, 6, 0, 5 };
         int pref[] = new int[] { 1, 3, 2, 4, 13, 7, 9, 8, 6, 5, 0 };
+        Point[] points = {new Point(1,3), new Point(2,5), new Point(2,1), new Point(1,5), new Point(1,1), new Point(2,3)};
 
         //Testbäume
         BinTree bt, bzt, wt, wtf, ctree;
@@ -19,8 +25,20 @@ public class Main {
         bt.preOut(bt);
         System.out.println();
         bt.preOut(bt.lrot(bt.rrot(bt))); //Links- und Rechtsrotation -> gleicher Baum wie vorher
+        System.out.println();
         System.out.println("--------Blatt5----------");
         BinTree test = bt.mk_tree_pi(pref, inf);
         test.postOut(test);
+        System.out.println();
+        int postarry[] = test.postfix(pref, inf);
+        for(int i=0;i<postarry.length;i++){
+            System.out.print(postarry[i]);
+        }
+        System.out.println();
+        System.out.println("Sortieren");
+        sort.sort_points(points);
+        for(int i=0;i<points.length;i++){
+            System.out.print("(" +points[i].x +"|" +points[i].y + ")");
+        }
     }
 }
