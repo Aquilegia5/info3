@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Arrays;
 
 public class Main {
 
@@ -10,7 +11,8 @@ public class Main {
         int inf[] =  new int[] { 2, 3, 4, 1, 13, 9, 5, 7, 8, 6, 0 };
         int pref[] = new int[] { 1, 3, 2, 4, 13, 7, 9, 8, 6, 5, 0 };
         Point[] points = {new Point(1,3), new Point(2,5), new Point(2,1), new Point(1,5), new Point(1,1), new Point(2,3)};
-
+        int values[] = {5, 3, 6, 7, 1, 8, 0, 9, 4};
+        int values2[] = {5, 2, 1, 9, 10, 4, 10, 8, 8, 3, 7};
 
         //Testbäume
         BinTree bt, bzt, wt, wtf, ctree;
@@ -37,7 +39,16 @@ public class Main {
             System.out.print(postarry[i]);
         }
         System.out.println();
+        BinTree temp = bt.createTree(values);
+        bt.inOut(temp);
+        System.out.println("------------------");
+
+        BinTree unsorted = bt.createTree(values2);
+        BinTree sorted = bt.createSortedTree(values2);
+        System.out.println("Sortiert: " + bt.isSorted(unsorted));
+        System.out.println("Sortiert: " + bt.isSorted(sorted));
         */
+
         //Sortieren
         /*System.out.println("Sortieren");
         sort.sort_points(points);
@@ -52,5 +63,7 @@ public class Main {
         for(int i=0;i<inf.length;i++){
            System.out.print(inf[i]);
         }
+        System.out.println();
+        System.out.println(sort.quickSelect(values, 5));
     }
 }

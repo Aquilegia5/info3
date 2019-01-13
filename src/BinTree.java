@@ -268,4 +268,76 @@ public class BinTree {
         return postfix(bt);
     }
 
+    //Blatt 6
+    public BinTree createTree(int[] values) {
+        int mid, mid_pos, rest;
+        if(values.length == 0)
+            return null;
+        if(values.length == 1)
+            return new BinTree(values[0], null, null);
+        mid_pos = values.length/2;
+        mid = values[mid_pos];
+
+        rest = values.length-1-mid_pos;
+        int[] lT = new int[mid_pos];
+        int[] rT = new int[rest];
+
+        System.arraycopy(values, 0,lT,0,mid_pos);
+        System.arraycopy(values, mid_pos+1,rT,0,rest);
+
+        return new BinTree(mid, createTree(lT), createTree(rT));
+
+    }
+
+    //Richtung Quicksort
+    public BinTree createSortedTree(int[] values){
+        return createSortedTree(values, 0, values.length-1);
+    }
+
+    public BinTree createSortedTree(int[] values, int l, int r) {
+        if(l>r)
+            return null;
+        if(l==r)
+            return new BinTree(values[l],null,null);
+        if(l==r-1){
+            if (values[l] > values[r])
+                return new BinTree(values[r], null, new BinTree(values[l], null, null));
+            else
+                return new BinTree(values[l], null, new BinTree(values[r], null, null));
+        }
+        //från tre
+        int m = pivInd(values, l, r);
+        int pivot = values[m];
+        swap(values, m, r);
+
+        int i = l;
+        int j = r;
+        for(;;){
+            while(values[++i]<pivot);
+            while(pivot<values[--j]);
+
+            if(i>=j) break;
+            swap(values, i, j);
+        }
+        swap(values, i, r);
+        BinTree left = createSortedTree(values, l, i-1);
+        BinTree right = null;
+        if(i<r)
+            right = createSortedTree(values, i+1, r);
+        return new BinTree(values[i], left, right);
+    }
+
+    private static int pivInd(int[] a, int l, int r) {
+        int m = (l+r)/2;
+        if(a[m] < a[l]) swap(a, l, m);
+        if(a[r] < a[l]) swap(a, l, r);
+        if(a[r] < a[m]) swap(a, m, r);
+        return m;
+    }
+
+    private static void swap(int[] a , int l, int r) {
+        int temp = a[l];
+        a[l] = a[r];
+        a[r] = temp;
+    }
 }
