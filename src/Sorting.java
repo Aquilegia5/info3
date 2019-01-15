@@ -108,4 +108,22 @@ public class Sorting {
         a[l] = a[r];
         a[r] = temp;
     }
+    public int heapinsert(int[] a, int r, int x) {
+        a[r] = x;
+        int ret = r;
+        int vaterInd = (r-1)/2;
+
+        while(vaterInd >= 0) {
+            if(a[r]>a[vaterInd]){
+                a[r] = a[vaterInd];
+                a[vaterInd] = x;
+            }
+            else {
+                break;
+            }
+            r = vaterInd;
+            vaterInd = (r-1)/2;
+        }
+        return ret;
+    }
 }

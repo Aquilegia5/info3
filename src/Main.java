@@ -13,6 +13,7 @@ public class Main {
         Point[] points = {new Point(1,3), new Point(2,5), new Point(2,1), new Point(1,5), new Point(1,1), new Point(2,3)};
         int values[] = {5, 3, 6, 7, 1, 8, 0, 9, 4};
         int values2[] = {5, 2, 1, 9, 10, 4, 10, 8, 8, 3, 7};
+        int heapinsertarr[] = {9, 5, 7, 3, 1, 6, 0, 0, 0, 0};
 
         //Testbäume
         BinTree bt, bzt, wt, wtf, ctree;
@@ -54,7 +55,7 @@ public class Main {
         sort.sort_points(points);
         for(int i=0;i<points.length;i++){
             System.out.print("(" +points[i].x +"|" +points[i].y + ")");
-        }*/
+        }
         for(int i=0;i<inf.length;i++){
             System.out.print(inf[i]);
         }
@@ -65,5 +66,14 @@ public class Main {
         }
         System.out.println();
         System.out.println(sort.quickSelect(values, 5));
+        */
+        for(int i=0;i<heapinsertarr.length;i++){
+            System.out.print(heapinsertarr[i]);
+        }
+        sort.heapinsert(heapinsertarr, 6, 10);
+        System.out.println();
+        for(int i=0;i<heapinsertarr.length;i++){
+            System.out.print(heapinsertarr[i]);
+        }
     }
 }
