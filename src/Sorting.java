@@ -2,9 +2,7 @@ import java.awt.*;
 
 public class Sorting {
 
-    public Sorting(){
-
-    }
+    public Sorting(){}
 
     //Blatt5 Sortieren
     public void sort_points(Point[] points){
@@ -125,5 +123,41 @@ public class Sorting {
             vaterInd = (r-1)/2;
         }
         return ret;
+    }
+
+    public static void main(String args[]) {
+        //Sortieren
+        Sorting sort = new Sorting();
+
+        //Testvars
+        Point[] points = {new Point(1,3), new Point(2,5), new Point(2,1), new Point(1,5), new Point(1,1), new Point(2,3)};
+        int heapinsertarr[] = {9, 5, 7, 3, 1, 6, 0, 0, 0, 0};
+        int inf[] =  new int[] { 2, 3, 4, 1, 13, 9, 7, 8, 6, 0, 5 };
+        int values[] = {5, 3, 6, 7, 1, 8, 0, 9, 4};
+
+        System.out.println("Sortieren");
+        sort.sort_points(points);
+        for(int i=0;i<points.length;i++){
+            System.out.print("(" +points[i].x +"|" +points[i].y + ")");
+        }
+        for(int i=0;i<inf.length;i++){
+            System.out.print(inf[i]);
+        }
+        System.out.println();
+        sort.selection_sort(inf);
+        for(int i=0;i<inf.length;i++){
+           System.out.print(inf[i]);
+        }
+        System.out.println();
+        System.out.println(sort.quickSelect(values, 5));
+
+        for(int i=0;i<heapinsertarr.length;i++){
+            System.out.print(heapinsertarr[i]);
+        }
+        sort.heapinsert(heapinsertarr, 6, 10);
+        System.out.println();
+        for(int i=0;i<heapinsertarr.length;i++){
+            System.out.print(heapinsertarr[i]);
+        }
     }
 }

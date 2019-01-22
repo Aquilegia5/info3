@@ -97,7 +97,7 @@ public class BinTree {
         }
     }
 
-    public void inOut(BinTree bt) {
+    public static void inOut(BinTree bt) {
         BinTree l = bt.lson();
         BinTree r = bt.rson();
 
@@ -339,5 +339,48 @@ public class BinTree {
         int temp = a[l];
         a[l] = a[r];
         a[r] = temp;
+    }
+
+    public static void main(String args[]) {
+        //Testvars
+        int inf[] =  new int[] { 2, 3, 4, 1, 13, 9, 7, 8, 6, 0, 5 };
+        int pref[] = new int[] { 1, 3, 2, 4, 13, 7, 9, 8, 6, 5, 0 };
+        int values[] = {5, 3, 6, 7, 1, 8, 0, 9, 4};
+        int values2[] = {5, 2, 1, 9, 10, 4, 10, 8, 8, 3, 7};
+
+        //Testbäume
+        BinTree bt, bzt, wt, wtf, ctree;
+        bt = new BinTree(5,new BinTree(3,new BinTree(1,null,null), new BinTree(2,null,null)),new BinTree(7,new BinTree(8,null,null),new BinTree(10, null, null)));
+        bzt = new BinTree(7,new BinTree(5,new BinTree(4,null,null), new BinTree(6,null,null)),new BinTree(8,null, new BinTree(9,null,null)));
+        wt = new BinTree("and", new BinTree("or", new BinTree(false, null, null), new BinTree(true, null, null)), new BinTree("not",null, new BinTree(false, null,null)));
+        wtf = new BinTree("xor", new BinTree(true, null, null), new BinTree(false, null, null));
+        ctree = new BinTree("or", new BinTree("not", null, new BinTree("and", new BinTree(true, null, null), new BinTree(false, null, null))), new BinTree("xor", new BinTree(false, null, null), new BinTree(true, null, null)));
+
+        //Funktionen
+        System.out.println(bt.avg(bt));
+        System.out.println("-----------------------");
+        bt.preOut(bt);
+        System.out.println();
+        bt.preOut(bt.lrot(bt.rrot(bt))); //Links- und Rechtsrotation -> gleicher Baum wie vorher
+        System.out.println();
+        System.out.println("--------Blatt5----------");
+        BinTree test = bt.mk_tree_pi(pref, inf);
+        test.postOut(test);
+        System.out.println();
+        int postarry[] = test.postfix(pref, inf);
+        for(int i=0;i<postarry.length;i++){
+            System.out.print(postarry[i]);
+        }
+        System.out.println();
+        BinTree temp = bt.createTree(values);
+        inOut(temp);
+        System.out.println();
+        System.out.println("------------------");
+
+        BinTree unsorted = bt.createTree(values2);
+        BinTree sorted = bt.createSortedTree(values2);
+        System.out.println("Sortiert(unsortierter Baum): " + bt.isSorted(unsorted));
+        System.out.println("Sortiert(sortierter Baum): " + bt.isSorted(sorted));
+
     }
 }
