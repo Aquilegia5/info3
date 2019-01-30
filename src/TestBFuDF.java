@@ -41,16 +41,16 @@ public class TestBFuDF {
         graph.addEdge(5, 10);
         graph.addEdge(11, 16);
         int components = graph.connectedComponents();
-        //List<Integer> bfs1 = graph.myBreadthFirst(2);
-        //List<Integer> bfs2 = graph.myBreadthFirst(3);
+        List<Integer> bfs1 = graph.breadthFirst(2);
+        List<Integer> bfs2 = graph.breadthFirst(3);
         List<Integer> dfs1 = graph.depthFirst(2);
         List<Integer> dfs2 = graph.depthFirst(3);
 
         System.out.println("#Zusammenhangskomponenten: " + components + " (erwartet: 3)");
 
         System.out.println("Breitensuche:");
-        //System.out.println(bfs1 + " (erwartet: [2, 4, 7, 8, 14, 12, 15, 13])");
-        //System.out.println(bfs2 + " (erwartet: [3, 11, 9, 16, 6, 5, 10])");
+        System.out.println(bfs1 + " (erwartet: [2, 4, 7, 8, 14, 12, 15, 13])");
+        System.out.println(bfs2 + " (erwartet: [3, 11, 9, 16, 6, 5, 10])");
 
         System.out.println("Tiefensuche:");
         System.out.println(dfs1 + " (erwartet: [2, 8, 15, 12, 13, 14, 7, 4])");
