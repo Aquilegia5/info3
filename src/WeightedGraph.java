@@ -1,7 +1,5 @@
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Klasse zur Verwaltung ungerichteter Graphen mit gewichteten Kanten. <br />
@@ -73,6 +71,38 @@ public class WeightedGraph {
         this.nodeData[node] = data;
     }
 
+    /**
+     * Breitensuchdurchlauf <br />
+     * Liefert Liste der erreichbaren Knoten zurück. Die
+     * Reihenfolge der Knoten in der Liste entspricht einem
+     * möglichen Durchlauf des Graphen mittels einer
+     * Breitensuche, angefangen am Knoten
+     * <code>startNode</code>. <br />
+     * Zu erzielende Laufzeit: O(n' + m') <br />
+     * Erreichte Laufzeit: O(n' + m')
+     */
+    public List<Integer> breadthFirst(int startNode) {
+        boolean inQueue[] = new boolean[this.num_nodes];		//  O(1) (Beweis siehe zukünftiges Übungsblatt)
+        LinkedList<Integer> queue = new LinkedList<Integer>();
+        queue.add(startNode);									// O(1)
+        inQueue[startNode] = true;								// O(1)
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        while(queue.size() > 0) {									// n' mal aufgerufen
+            int node = queue.remove();								// O(1)
+            Set<Integer> currentEdges = this.weightedEdges.get(node).keySet();	// O(1)
+            for(Integer neighbor : currentEdges) {					// O(Kantenanzahl von node)
+                // => über alle Durchläufe der äußeren Schleife: 2 * m'
+                if(!inQueue[neighbor]) {							// O(1)
+                    queue.add(neighbor);							// O(1)
+                    inQueue[neighbor] = true;						// O(1)
+                }
+            }
+
+            result.add(node);										// O(1)
+        }
+
+        return result;
+    }
 
 
     /**
@@ -89,16 +119,70 @@ public class WeightedGraph {
      * Erreichte Laufzeit: ToDo
      */
     public int[] roadMapTo(int destination) {
-        // ToDo
-        return null;
+        int nodesToCheck = this.breadthFirst(destination).size();
+        boolean[] OK = new boolean[this.num_nodes];
+        double dd[] = new double[this.num_nodes];
+        int pre[] = new int[this.num_nodes];
+
+        for(int i=0;i<this.num_nodes;i++) {
+            OK[i] = false;
+            dd[i] = Double.MAX_VALUE;
+            pre[i] = i;
+        }
+        OK[destination] = true;
+        dd[destination] = 0.0;
+
+        int lastInserted = destination;
+        int nodesInOK = 1;
+        while(nodesInOK < nodesToCheck) {
+            double distanceOfLast = dd[lastInserted];                               // distance (zur destination)
+            HashMap<Integer, Double> lastInsertedAdj = this.weightedEdges.get(lastInserted);
+
+            for(Integer neighbor : lastInsertedAdj.keySet()) {
+                if(!OK[neighbor]) {
+                    double distanceFromLast = lastInsertedAdj.get(neighbor);        // =d(w,v)
+                    if(distanceOfLast + distanceFromLast < dd[neighbor]) {          // dd[w] + d(w,v) < dd[v]
+                        dd[neighbor] = distanceOfLast + distanceFromLast;
+                        pre[neighbor] = lastInserted;
+                    }
+                }
+            }
+
+            double minD = Double.MAX_VALUE;                                         // Suche nächstes w mit minimaler dist
+            int minI = -1;
+            for(int i=0;i<this.num_nodes;i++) {
+                if(!OK[i] && (dd[i] < minD)) {
+                    minD = dd[i];
+                    minI = i;
+                }
+            }
+
+            OK[minI] = true;
+            lastInserted = minI;
+            nodesInOK++;
+        }
+        return pre;
     }
 
     /**
      * Blatt 10 Aufgabe 4 b)
      */
     public int[] leastLeakageFrom(int source) {
-        // ToDo
-        return null;
+        int n = this.num_nodes;
+        WeightedGraph temp = new WeightedGraph(n);
+
+        for(int i=0;i<n;i++) {
+            HashMap<Integer, Double> adj = this.weightedEdges.get(i);
+            for(Integer neighbor : adj.keySet()) {
+                if(neighbor>i) {
+                    double weight = adj.get(neighbor);
+                    weight = -Math.log(weight);
+                    temp.addEdge(i, neighbor , weight);
+                }
+            }
+
+        }
+        return temp.roadMapTo(source);
     }
 
     /**

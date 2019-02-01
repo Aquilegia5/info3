@@ -15,7 +15,7 @@ import java.util.HashMap;
  */
 public class TestWeightedGraphs {
     public static void main(String args[]) {
-        testRoadMapTo();
+        //testRoadMapTo();
         testLeastLeakageFrom_1();
         // testLeastLeakageFrom_2();
 
